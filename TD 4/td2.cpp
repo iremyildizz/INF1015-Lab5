@@ -352,9 +352,14 @@ int main(int argc, char* argv[])
 	afficherListeItems(items);
 
 	forward_list<unique_ptr<Item>> itemsForwardList;
-	for (int i = (items.size() - 1); i > 0; i--) {
+	for (int i = (items.size() - 1); i >= 0; i--) {
 		itemsForwardList.push_front(move(items[i]));
 	}
 
-	afficherListeItemsGenerique(itemsForwardList);
+	forward_list<unique_ptr<Item>> itemsForwardListInverse;
+	for(auto&& item : itemsForwardList){
+		itemsForwardListInverse.push_front(move(item));
+	}
+
+	cout << "fin";
 }
