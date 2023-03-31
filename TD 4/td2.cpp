@@ -368,4 +368,15 @@ int main(int argc, char* argv[])
 	cout << ligneDeSeparation << endl;
 	cout << "Question 1.2" << endl;
 	afficherListeItemsGenerique(itemsForwardListInverse);
+
+	forward_list<Item*> copyForwardList;
+	forward_list<Item*>::iterator it;
+	forward_list<Item*>::iterator pos = copyForwardList.before_begin();
+	for (it = itemsForwardList.begin(); it != itemsForwardList.end(); it++ ) {
+		pos = copyForwardList.insert_after(pos, *it);
+	}
+	cout << ligneDeSeparation << endl;
+	cout << "Question 1.3" << endl;
+	afficherListeItemsGenerique(copyForwardList);
+
 }
