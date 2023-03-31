@@ -268,11 +268,13 @@ Livre::Livre(istream& is) {
 
 void afficherListeItems(span<unique_ptr<Item>> listeItems)
 {
+
 	for (auto&& item : listeItems)
 		cout << *item << endl;
 }
 template <typename T>
 void afficherListeItemsGenerique(T listeItems) {
+
 	for (auto&& item : listeItems)
 		cout << *item << endl;
 
@@ -351,15 +353,19 @@ int main(int argc, char* argv[])
 	
 	afficherListeItems(items);
 
-	forward_list<unique_ptr<Item>> itemsForwardList;
+	forward_list<Item*> itemsForwardList;
 	for (int i = (items.size() - 1); i >= 0; i--) {
-		itemsForwardList.push_front(move(items[i]));
+		itemsForwardList.push_front(items[i].get());
 	}
+	cout << ligneDeSeparation << endl;
+	cout << "Question 1.1" << endl;
+	afficherListeItemsGenerique(itemsForwardList);
 
-	forward_list<unique_ptr<Item>> itemsForwardListInverse;
-	for(auto&& item : itemsForwardList){
-		itemsForwardListInverse.push_front(move(item));
+	forward_list<Item*> itemsForwardListInverse;
+	for(auto&& item : items){
+		itemsForwardListInverse.push_front(item.get());
 	}
-
-	cout << "fin";
+	cout << ligneDeSeparation << endl;
+	cout << "Question 1.2" << endl;
+	afficherListeItemsGenerique(itemsForwardListInverse);
 }
