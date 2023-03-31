@@ -4,7 +4,7 @@
 #pragma region "Includes"//{
 #define _CRT_SECURE_NO_WARNINGS // On permet d'utiliser les fonctions de copies de chaînes qui sont considérées non sécuritaires.
 
-#include "structures_solutionnaire_td4.hpp"      // Structures de données pour la collection de films en mémoire.
+#include "structures.hpp"      // Structures de données pour la collection de films en mémoire.
 
 #include <iostream>
 #include <iomanip>
@@ -16,6 +16,7 @@
 #include "cppitertools/range.hpp"
 #include "cppitertools/enumerate.hpp"
 #include "gsl/span"
+#include <forward_list>
 
 #if __has_include("gtest/gtest.h")
 #include "gtest/gtest.h"
@@ -216,16 +217,12 @@ ostream& operator<< (ostream& os, const Affichable& affichable)
 
 void Item::afficherSur(ostream& os) const
 {
-	os << "Titre: " << titre << "  Année:" << anneeSortie << endl;
+	os << titre;
 }
 
 void Film::afficherSpecifiqueSur(ostream& os) const
 {
-	os << "  Réalisateur: " << realisateur << endl;
-	os << "  Recette: " << recette << "M$" << endl;
-	os << "Acteurs:" << endl;
-	for (auto&& acteur : acteurs.enSpan())
-		os << *acteur;
+	os << ", par " << realisateur;
 }
 
 void Film::afficherSur(ostream& os) const
@@ -236,8 +233,7 @@ void Film::afficherSur(ostream& os) const
 
 void Livre::afficherSpecifiqueSur(ostream& os) const
 {
-	os << "  Auteur: " << auteur << endl;
-	os << "  Vendus: " << copiesVendues << "M  Pages: " << nPages << endl;
+	os << ", de " << auteur ;
 }
 
 void Livre::afficherSur(ostream& os) const
@@ -249,10 +245,8 @@ void Livre::afficherSur(ostream& os) const
 void FilmLivre::afficherSur(ostream& os) const
 {
 	Item::afficherSur(os);
-	os << "Combo:" << endl;
 	// L'affichage comme l'exemple sur Discord est accepté, ici on montre comment on pourrait séparer en deux méthodes pour ne pas avoir le même titre d'Item affiché plusieurs fois.
 	Film::afficherSpecifiqueSur(os);
-	os << "Livre:" << endl;
 	Livre::afficherSpecifiqueSur(os);
 }
 
@@ -274,17 +268,20 @@ Livre::Livre(istream& is) {
 
 void afficherListeItems(span<unique_ptr<Item>> listeItems)
 {
-	static const string ligneDeSeparation = "\033[32m────────────────────────────────────────\033[0m\n";
-	cout << ligneDeSeparation;
-	for (auto&& item : listeItems) {
-		cout << *item << ligneDeSeparation;
-	}
+	for (auto&& item : listeItems)
+		cout << *item << endl;
+}
+template <typename T>
+void afficherListeItemsGenerique(T listeItems) {
+	for (auto&& item : listeItems)
+		cout << *item << endl;
+
 }
 
 #pragma region "Exemples de tests unitaires"//{
 #ifdef TEST
 // Pas demandés dans ce TD mais sert d'exemple.
-
+	""
 TEST(tests_ListeFilms, tests_simples) {
 	ListeFilms li;
 	EXPECT_EQ(li.size(), 0);
@@ -351,6 +348,13 @@ int main(int argc, char* argv[])
 	}
 	
 	items.push_back(make_unique<FilmLivre>(dynamic_cast<Film&>(*items[4]), dynamic_cast<Livre&>(*items[9])));  // On ne demandait pas de faire une recherche; serait direct avec la matière du TD5.
-
+	
 	afficherListeItems(items);
+
+	forward_list<unique_ptr<Item>> itemsForwardList;
+	for (int i = (items.size() - 1); i > 0; i--) {
+		itemsForwardList.push_front(move(items[i]));
+	}
+
+	afficherListeItemsGenerique(itemsForwardList);
 }
