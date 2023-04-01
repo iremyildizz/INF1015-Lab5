@@ -72,6 +72,13 @@ public:
 	shared_ptr<T>& operator[] (int index) const { assert(0 <= index && index < nElements_); return elements_[index]; }
 	span<shared_ptr<T>> enSpan() const { return span(elements_.get(), nElements_); }
 
+	shared_ptr<T>* begin() const {
+		return &elements_[0];
+	}
+	shared_ptr<T>* end() const {
+		return &elements_[nElements_];
+	}
+
 private:
 	int capacite_ = 0, nElements_ = 0;
 	unique_ptr<shared_ptr<T>[]> elements_;
@@ -103,6 +110,7 @@ public:
 	void afficherSur(ostream& os) const override;
 	void afficherSpecifiqueSur(ostream& os) const;  // Affiche la parite de cette classe sans afficher la base virtuelle.
 
+	inline const Liste<Acteur>& obtenirActeurs() const { return acteurs; };
 	friend Film* lireFilm(istream& fichier, ListeFilms& listeFilms);
 	friend shared_ptr<Acteur> ListeFilms::trouverActeur(const string& nomActeur) const;
 	template <typename T> struct accessible_pour_tests_par;  // Non demandé, ni matière au cours, permet d'ajouter des accès pour les tests.

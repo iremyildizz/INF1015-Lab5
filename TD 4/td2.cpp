@@ -358,7 +358,7 @@ int main(int argc, char* argv[])
 		itemsForwardList.push_front(items[i].get());
 	}
 	cout << ligneDeSeparation << endl;
-	cout << "Question 1.1" << endl;
+	cout << "Question 1.1\n" << endl;
 	afficherListeItemsGenerique(itemsForwardList);
 
 	forward_list<Item*> itemsForwardListInverse;
@@ -366,7 +366,7 @@ int main(int argc, char* argv[])
 		itemsForwardListInverse.push_front(item.get());
 	}
 	cout << ligneDeSeparation << endl;
-	cout << "Question 1.2" << endl;
+	cout << "Question 1.2\n" << endl;
 	afficherListeItemsGenerique(itemsForwardListInverse);
 
 	forward_list<Item*> copyForwardList;
@@ -376,7 +376,7 @@ int main(int argc, char* argv[])
 		pos = copyForwardList.insert_after(pos, *it);
 
 	cout << ligneDeSeparation << endl;
-	cout << "Question 1.3" << endl;
+	cout << "Question 1.3\n" << endl;
 	afficherListeItemsGenerique(copyForwardList);
 
 	vector<Item*> vecteurInverse;
@@ -384,6 +384,14 @@ int main(int argc, char* argv[])
 		vecteurInverse.insert(vecteurInverse.begin(), item);
 
 	cout << ligneDeSeparation << endl;
-	cout << "Question 1.4" << endl;
+	cout << "Question 1.4\n" << endl;
 	afficherListeItemsGenerique(vecteurInverse);
+
+	cout << ligneDeSeparation << endl;
+	cout << "Question 1.5\n" << endl;
+	Film* filmPtr = dynamic_cast<Film*>(items[0].get()); //0 est l'index du film Alien. 
+	Film film = *filmPtr;
+	for (auto&& acteur : film.obtenirActeurs()) {
+		cout << acteur->nom << endl;
+	}
 }
