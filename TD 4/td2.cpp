@@ -379,19 +379,19 @@ int main(int argc, char* argv[])
 	cout << "Question 1.3\n" << endl;
 	afficherListeItemsGenerique(copyForwardList);
 
-	vector<Item*> vecteurInverse;
+	vector<Item*> vectorInverse;
 	for (auto&& item : itemsForwardList) 
-		vecteurInverse.insert(vecteurInverse.begin(), item);
+		vectorInverse.insert(vectorInverse.begin(), item);
 
 	cout << ligneDeSeparation << endl;
 	cout << "Question 1.4\n" << endl;
-	afficherListeItemsGenerique(vecteurInverse);
+	afficherListeItemsGenerique(vectorInverse);
 
 	cout << ligneDeSeparation << endl;
 	cout << "Question 1.5\n" << endl;
 	Film* filmPtr = dynamic_cast<Film*>(items[0].get()); //0 est l'index du film Alien. 
 	Film film = *filmPtr;
-	for (auto&& acteur : film.obtenirActeurs()) {
+	for (auto&& acteur : film.getActeurs()) {
 		cout << acteur->nom << endl;
 	}
 }
