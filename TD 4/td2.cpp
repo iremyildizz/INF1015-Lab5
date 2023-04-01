@@ -372,11 +372,18 @@ int main(int argc, char* argv[])
 	forward_list<Item*> copyForwardList;
 	forward_list<Item*>::iterator it;
 	forward_list<Item*>::iterator pos = copyForwardList.before_begin();
-	for (it = itemsForwardList.begin(); it != itemsForwardList.end(); it++ ) {
+	for (it = itemsForwardList.begin(); it != itemsForwardList.end(); it++ ) 
 		pos = copyForwardList.insert_after(pos, *it);
-	}
+
 	cout << ligneDeSeparation << endl;
 	cout << "Question 1.3" << endl;
 	afficherListeItemsGenerique(copyForwardList);
 
+	vector<Item*> vecteurInverse;
+	for (auto&& item : itemsForwardList) 
+		vecteurInverse.insert(vecteurInverse.begin(), item);
+
+	cout << ligneDeSeparation << endl;
+	cout << "Question 1.4" << endl;
+	afficherListeItemsGenerique(vecteurInverse);
 }
