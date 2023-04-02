@@ -99,7 +99,6 @@ public:
 
 	friend Film* lireFilm(istream& fichier, ListeFilms& listeFilms);
 
-private:
 	string titre;
 	int anneeSortie = 0;
 };
@@ -145,4 +144,11 @@ public:
 struct Acteur
 {
 	string nom; int anneeNaissance=0; char sexe='\0';
+};
+
+template <typename T>
+struct Comparison {
+	bool operator()(const T* first, const T* second) const {
+		return first->titre < second->titre;
+	}
 };

@@ -17,6 +17,7 @@
 #include "cppitertools/enumerate.hpp"
 #include "gsl/span"
 #include <forward_list>
+#include <set>
 
 #if __has_include("gtest/gtest.h")
 #include "gtest/gtest.h"
@@ -386,6 +387,7 @@ int main(int argc, char* argv[])
 	cout << ligneDeSeparation << endl;
 	cout << "Question 1.4\n" << endl;
 	afficherListeItemsGenerique(vectorInverse);
+	//O(n) : Ordre de n
 
 	cout << ligneDeSeparation << endl;
 	cout << "Question 1.5\n" << endl;
@@ -394,4 +396,13 @@ int main(int argc, char* argv[])
 	for (auto&& acteur : film.getActeurs()) {
 		cout << acteur->nom << endl;
 	}
+
+	cout << ligneDeSeparation << " 2eme partie " << ligneDeSeparation << endl;
+	cout << "Question 2.1\n" << endl;
+
+	set<Item*, Comparison<Item>> setAlpha;
+		for (auto&& item : items) {
+			setAlpha.insert(item.get());
+	}
+		afficherListeItemsGenerique(setAlpha);
 }
