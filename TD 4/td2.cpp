@@ -19,6 +19,7 @@
 #include <forward_list>
 #include <set>
 #include <unordered_map>
+#include <numeric>
 
 #if __has_include("gtest/gtest.h")
 #include "gtest/gtest.h"
@@ -336,7 +337,7 @@ int main(int argc, char* argv[])
 	static const string ligneDeSeparation = "\n\033[35m════════════════════════════════════════\033[0m\n";
 
 	vector<unique_ptr<Item>> items;
-	
+
 	{
 		ListeFilms listeFilms = creerListe("films.bin");
 		for (auto&& film : listeFilms.enSpan())
@@ -350,9 +351,9 @@ int main(int argc, char* argv[])
 		while (!ws(fichier).eof())
 			items.push_back(make_unique<Livre>(fichier));
 	}
-	
+
 	items.push_back(make_unique<FilmLivre>(dynamic_cast<Film&>(*items[4]), dynamic_cast<Livre&>(*items[9])));  // On ne demandait pas de faire une recherche; serait direct avec la matière du TD5.
-	
+
 	afficherListeItems(items);
 
 	forward_list<Item*> itemsForwardList;
@@ -364,7 +365,7 @@ int main(int argc, char* argv[])
 	afficherListeItemsGenerique(itemsForwardList);
 
 	forward_list<Item*> itemsForwardListInverse;
-	for(auto&& item : items){
+	for (auto&& item : items) {
 		itemsForwardListInverse.push_front(item.get());
 	}
 	cout << ligneDeSeparation << endl;
@@ -374,7 +375,7 @@ int main(int argc, char* argv[])
 	forward_list<Item*> copyForwardList;
 	forward_list<Item*>::iterator it;
 	forward_list<Item*>::iterator pos = copyForwardList.before_begin();
-	for (it = itemsForwardList.begin(); it != itemsForwardList.end(); it++ ) 
+	for (it = itemsForwardList.begin(); it != itemsForwardList.end(); it++)
 		pos = copyForwardList.insert_after(pos, *it);
 
 	cout << ligneDeSeparation << endl;
@@ -382,7 +383,7 @@ int main(int argc, char* argv[])
 	afficherListeItemsGenerique(copyForwardList);
 
 	vector<Item*> vectorInverse;
-	for (auto&& item : itemsForwardList) 
+	for (auto&& item : itemsForwardList)
 		vectorInverse.insert(vectorInverse.begin(), item);
 
 	cout << ligneDeSeparation << endl;
@@ -402,14 +403,14 @@ int main(int argc, char* argv[])
 	cout << "Question 2.1\n" << endl;
 
 	set<Item*, Comparison<Item*>> setAlpha;
-		for (auto&& item : items) 
-			setAlpha.insert(item.get());
-		afficherListeItemsGenerique(setAlpha);
+	for (auto&& item : items)
+		setAlpha.insert(item.get());
+	afficherListeItemsGenerique(setAlpha);
 
 	unordered_map<string, Item*> unordMapTitle;
-		for (auto&& item : items)
-			unordMapTitle.insert({ item->titre, item.get() });
-	
+	for (auto&& item : items)
+		unordMapTitle.insert({ item->titre, item.get() });
+
 	cout << ligneDeSeparation << endl;
 	cout << "Question 2.2\n" << endl;
 	cout << unordMapTitle.find("The Hobbit")->second->titre << endl;
@@ -418,7 +419,16 @@ int main(int argc, char* argv[])
 	cout << "Question 3.1\n" << endl;
 
 	vector<Item*> vectorCopy;
-	copy_if(itemsForwardList.begin(), itemsForwardList.end(), back_inserter(vectorCopy), [](Item* item){ return dynamic_cast<Film*>(item); } );
+	copy_if(itemsForwardList.begin(), itemsForwardList.end(), back_inserter(vectorCopy), [](Item* item) { return dynamic_cast<Film*>(item); });
 
 	afficherListeItemsGenerique(vectorCopy);
+
+	cout << ligneDeSeparation << endl;
+	cout << "Question 3.2\n" << endl;
+
+	int sum = accumulate(vectorCopy.begin(), vectorCopy.end(), 0, [](int sum, Item* item) {
+			Film* film = dynamic_cast<Film*> (item);
+			return film->recette + sum ;
+		});
+	cout << sum << endl;
 }
