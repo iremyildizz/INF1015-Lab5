@@ -1,5 +1,10 @@
-﻿// Solutionnaire du TD4 INF1015 hiver 2023
-// Par Francois-R.Boyer@PolyMtl.ca
+﻿/*
+* Programme qui gère une liste de films et de livres contenant des informations sur ceux-ci, mais
+* aussi sur les acteurs qui jouent dans les films.
+* \file   tp5.cpp
+* \author Irem Yildiz
+* \date   2 avril 2023
+*/
 
 #pragma region "Includes"//{
 #define _CRT_SECURE_NO_WARNINGS // On permet d'utiliser les fonctions de copies de chaînes qui sont considérées non sécuritaires.

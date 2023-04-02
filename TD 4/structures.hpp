@@ -1,5 +1,11 @@
-﻿// Solutionnaire du TD4 INF1015 hiver 2023
-// Par Francois-R.Boyer@PolyMtl.ca
+﻿/*
+* Programme qui gère une liste de films et de livres contenant des informations sur ceux-ci, mais
+* aussi sur les acteurs qui jouent dans les films.
+* \file   structures.cpp
+* \author Irem Yildiz
+* \date   2 avril 2023
+*/
+
 
 #pragma once
 // Structures mémoires pour une collection de films.
