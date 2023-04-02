@@ -18,6 +18,7 @@
 #include "gsl/span"
 #include <forward_list>
 #include <set>
+#include <unordered_map>
 
 #if __has_include("gtest/gtest.h")
 #include "gtest/gtest.h"
@@ -400,9 +401,24 @@ int main(int argc, char* argv[])
 	cout << ligneDeSeparation << " 2eme partie " << ligneDeSeparation << endl;
 	cout << "Question 2.1\n" << endl;
 
-	set<Item*, Comparison<Item>> setAlpha;
-		for (auto&& item : items) {
+	set<Item*, Comparison<Item*>> setAlpha;
+		for (auto&& item : items) 
 			setAlpha.insert(item.get());
-	}
 		afficherListeItemsGenerique(setAlpha);
+
+	unordered_map<string, Item*> unordMapTitle;
+		for (auto&& item : items)
+			unordMapTitle.insert({ item->titre, item.get() });
+	
+	cout << ligneDeSeparation << endl;
+	cout << "Question 2.2\n" << endl;
+	cout << unordMapTitle.find("The Hobbit")->second->titre << endl;
+
+	cout << ligneDeSeparation << " 3eme partie " << ligneDeSeparation << endl;
+	cout << "Question 3.1\n" << endl;
+
+	vector<Item*> vectorCopy;
+	copy_if(itemsForwardList.begin(), itemsForwardList.end(), back_inserter(vectorCopy), [](Item* item){ return dynamic_cast<Film*>(item); } );
+
+	afficherListeItemsGenerique(vectorCopy);
 }

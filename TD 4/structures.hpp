@@ -148,7 +148,7 @@ struct Acteur
 
 template <typename T>
 struct Comparison {
-	bool operator()(const T* first, const T* second) const {
+	bool operator()(const T& first, const T& second) const {
 		return first->titre < second->titre;
 	}
 };
